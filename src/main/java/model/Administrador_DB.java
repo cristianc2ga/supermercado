@@ -24,16 +24,22 @@ public class Administrador_DB {
         }        
     }
     
-    public void register(String nombre, int identificacion, String cargo){
-        String instruction = "INSERT INTO usuarios VALUES ('" + identificacion + "', " + nombre + ", ' " + cargo + " ')";
-        try {
-            obj_connection.prepareStatement(instruction).execute();
-            JOptionPane.showMessageDialog(null, "Usuario registrado correctamente");
-            
-        } catch (SQLException err) {
-            JOptionPane.showMessageDialog(null, err);
-        }
+    public void register(String nombre, int identificacion, String cargo) {
+    String instruction = "INSERT INTO usuarios VALUES (?, ?, ?)";
+    try {
+        PreparedStatement statement = obj_connection.prepareStatement(instruction);
+        statement.setInt(1, identificacion);
+        statement.setString(2, nombre);
+        statement.setString(3, cargo);
+        
+        statement.executeUpdate();
+        
+        JOptionPane.showMessageDialog(null, "Usuario registrado correctamente");
+    } catch (SQLException err) {
+        JOptionPane.showMessageDialog(null, err);
     }
+}
+
     
     public ArrayList<String> getUsers(){
         String instruction = "SELECT * FROM usuarios";

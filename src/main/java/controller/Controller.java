@@ -2,6 +2,7 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import view.View;
 import model.Model;
@@ -26,11 +27,9 @@ public class Controller {
     public void start_view(){
         obj_view.setVisible(true);
         obj_view.setLocationRelativeTo(null);
-        obj_view.listaCargos.addItem("Administrador");
-        obj_view.listaCargos.addItem("Trabajador");
-        obj_view.listaCargos.addItem("Cliente");
-        obj_view.listaCargos.addItem("Aprobador");
-        
+        String[] cargos = {"All", "Administrador", "Cliente", "Cliente Especial", "Gerente", "Cajero", "Mensajero", "Bodeguero"};
+        obj_view.listaCargos.setModel(new DefaultComboBoxModel<>(cargos));
+
     };
     public void establish_user(){
         obj_model.setNombre(obj_view.txtNombre.getText());
@@ -57,18 +56,27 @@ public class Controller {
         }
     };
      ActionListener btn_consultar = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            obj_view.txtUsuarios.setText(t:"");
-            if (confirmacion){
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        obj_view.txtUsuarios.setText("");
+        String selectedCargo = (String) obj_view.listaCargos.getSelectedItem();
+        
+        if (confirmacion) {
+            if (selectedCargo.equals("All")) {
                 ArrayList<String> array_users = obj_DB.getUsers();
-                for(int i=0; i<array_users.size(); i++){
+                for (int i = 0; i < array_users.size(); i++) {
                     obj_view.txtUsuarios.append(String.valueOf(array_users.get(i)) + "\n");
                 }
-            }  
-            else {
-                JOptionPane.showMessageDialog(null, "There is an error with the database connection");
+            } else {
+                ArrayList<String> array_users = obj_DB.getUsersByRole(selectedCargo);
+                for (int i = 0; i < array_users.size(); i++) {
+                    obj_view.txtUsuarios.append(String.valueOf(array_users.get(i)) + "\n");
+                }
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "There is an error with the database connection");
         }
-    };
+    }
+};
+
 }
