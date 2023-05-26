@@ -1,20 +1,10 @@
 package model;
 
-/**
- *
- * @author CristianGarcia
- */
 public class Model {
-    public class Cliente {
     private String nombre;
-    private Integer identificacion;
+    private int identificacion;
     private String cargo;
     
-    public Cliente(String nombre, Integer identificacion, String cargo) {
-        this.nombre = nombre;
-        this.identificacion = identificacion;
-        this.cargo = cargo;
-    }
 
         public String getNombre() {
             return nombre;
@@ -24,11 +14,11 @@ public class Model {
             this.nombre = nombre;
         }
 
-        public Integer getIdentificacion() {
+        public int getIdentificacion() {
             return identificacion;
         }
 
-        public void setIdentificacion(Integer identificacion) {
+        public void setIdentificacion(int identificacion) {
             this.identificacion = identificacion;
         }
 
@@ -39,9 +29,4 @@ public class Model {
         public void setCargo(String cargo) {
             this.cargo = cargo;
         }
-
-        
-    
-    
-}
 }
