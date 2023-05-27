@@ -47,8 +47,8 @@ public class Administrador_DB {
         try {
             ResultSet data_table = obj_connection.prepareStatement(instruction).executeQuery();
             while(data_table.next()) {
-                array_users.add(data_table.getString("nombre") + " " + data_table.getInt("identificacion")
-                + data_table.getString("cargo"));
+                array_users.add(data_table.getString("nombre") + ";" + data_table.getInt("identificacion")
+                +";"+ data_table.getString("cargo"));
             }
             return array_users;
                     
@@ -67,8 +67,8 @@ public class Administrador_DB {
         ResultSet resultSet = statement.executeQuery();
 
         while (resultSet.next()) {
-            String user = resultSet.getString("nombre") + " " +
-                    resultSet.getInt("identificacion") + " " +
+            String user = resultSet.getString("nombre") + ";" +
+                    resultSet.getInt("identificacion") + ";" +
                     resultSet.getString("cargo");
             arrayUsers.add(user);
         }

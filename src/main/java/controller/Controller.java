@@ -4,6 +4,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import view.View;
 import model.Model;
 import model.Administrador_DB;
@@ -27,7 +30,7 @@ public class Controller {
     public void start_view(){
         obj_view.setVisible(true);
         obj_view.setLocationRelativeTo(null);
-        String[] cargos = {"All", "Administrador", "Cliente", "Cliente Especial", "Gerente", "Cajero", "Mensajero", "Bodeguero"};
+        String[] cargos = {"Todos", "Administrador", "Cliente", "Cliente Especial", "Gerente", "Cajero", "Mensajero", "Bodeguero"};
         obj_view.listaCargos.setModel(new DefaultComboBoxModel<>(cargos));
 
     };
@@ -55,28 +58,40 @@ public class Controller {
             }
         }
     };
-     ActionListener btn_consultar = new ActionListener() {
+    ActionListener btn_consultar = new ActionListener() {
     @Override
     public void actionPerformed(ActionEvent e) {
-        obj_view.txtUsuarios.setText("");
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Name");
+        model.addColumn("Identification");
+        model.addColumn("Role");
+
         String selectedCargo = (String) obj_view.listaCargos.getSelectedItem();
-        
+
         if (confirmacion) {
-            if (selectedCargo.equals("All")) {
+            if (selectedCargo.equals("Todos")) {
                 ArrayList<String> array_users = obj_DB.getUsers();
-                for (int i = 0; i < array_users.size(); i++) {
-                    obj_view.txtUsuarios.append(String.valueOf(array_users.get(i)) + "\n");
+                //System.out.println(array_users);
+                for (String user : array_users) {
+                    String[] userData = user.split(";");                    
+                    model.addRow(new Object[]{userData[1],userData[0], userData[2]});
                 }
             } else {
                 ArrayList<String> array_users = obj_DB.getUsersByRole(selectedCargo);
-                for (int i = 0; i < array_users.size(); i++) {
-                    obj_view.txtUsuarios.append(String.valueOf(array_users.get(i)) + "\n");
+                //System.out.println(array_users);
+                for (String user : array_users) {
+                    String[] userData = user.split(";");
+                    model.addRow(new Object[]{userData[1], userData[0], userData[2]});
                 }
             }
+
+            obj_view.textTabla.setModel(model);
         } else {
             JOptionPane.showMessageDialog(null, "There is an error with the database connection");
         }
-    }
-};
+        }
+    };
+
+
 
 }
