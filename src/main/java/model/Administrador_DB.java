@@ -15,7 +15,7 @@ public class Administrador_DB {
     public boolean connect(){
         try {
             obj_connection = DriverManager.getConnection(url, user, passw);
-            JOptionPane.showMessageDialog(null, "Succesful Connection");
+            JOptionPane.showMessageDialog(null, "Conexión con BD exitosa");
             return true;
         } catch (SQLException err) {
             System.out.println(err);
